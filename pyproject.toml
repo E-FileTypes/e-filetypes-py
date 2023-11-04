@@ -1,0 +1,8 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "e-filetypes-py"
+authors = [{name = "Wamy", email = "davidisadev@gmail.com"}]
+dynamic = ["version", "description"]
