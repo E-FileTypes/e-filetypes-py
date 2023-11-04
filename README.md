@@ -1,6 +1,7 @@
 <div align="center">
     <img src="/assets/efiletypeslogo-dark-python.png#gh-light-mode-only" height="200">
     <img src="/assets/efiletypeslogo-white-python.png#gh-dark-mode-only" height="200">
+    <h3>E-FileTypes-Py</h3>
 </div>
 
 <br/>
