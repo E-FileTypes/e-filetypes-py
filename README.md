@@ -1,9 +1,10 @@
-# E-FileTypes-Py Python Library
-
 <div align="center">
     <img src="/assets/efiletypeslogo-dark-python.png#gh-light-mode-only" height="200">
     <img src="/assets/efiletypeslogo-white-python.png#gh-dark-mode-only" height="200">
 </div>
+
+<br/>
+<br/>
 
 | |
 | :---: |
@@ -12,6 +13,7 @@
 | ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/E-FileTypes/e-filetypes-py) |
 | |
 
+<br/>
 
 ## Overview
 The E-FileTypes-Py library allows you to integrate with E-FileTypes using any Python application.
