@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v2.0.1...v3.0.0) (2023-11-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* changes file extension from e-* to e-# due to windows limitation
+
+### Bug Fixes
+
+* changes file extension from e-* to e-# due to windows limitation ([75c0b23](https://github.com/E-FileTypes/e-filetypes-py/commit/75c0b231297df70e461b8dc3f19ececf3b15db32))
+
 ## [2.0.1](https://github.com/E-FileTypes/e-filetypes-py/compare/v2.0.0...v2.0.1) (2023-11-05)
 
 
