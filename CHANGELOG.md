@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v1.0.0...v1.1.0) (2023-11-05)
+
+
+### Features
+
+* better readme with more shields ([e10c43f](https://github.com/E-FileTypes/e-filetypes-py/commit/e10c43f5613439d6a9aa6cacc6c784f5f60b0860))
+
+
+### Bug Fixes
+
+* fixes links ([49d2d14](https://github.com/E-FileTypes/e-filetypes-py/commit/49d2d14aec8675abcf62e55f1088b8dbea5b855a))
+* removes github-releases job as it is already handled by release-please ([ba22d91](https://github.com/E-FileTypes/e-filetypes-py/commit/ba22d91446fd83359d6366d424e4b8ff255f95e9))
+* removes tag requirement for pushes to pypi as the file won't be updated for small releases anyways ([24c3eb4](https://github.com/E-FileTypes/e-filetypes-py/commit/24c3eb411e0d2f2aae4a60d8b5cddbe4b5e993f6))
+
 ## [1.0.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v0.1.0...v1.0.0) (2023-11-05)
 
 
