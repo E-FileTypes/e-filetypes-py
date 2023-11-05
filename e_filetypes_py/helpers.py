@@ -125,7 +125,7 @@ def read_file_header(path: str, passkey: str) -> dict:
     except Exception:
         raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
     
-def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 1000000) -> None:
+def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 10) -> None:
     """ 
     Encrypts a file using AES-GCM, which is good for encrypting large amounts of data.
 
@@ -135,7 +135,7 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
         metadata (dict): Metadata to be encrypted into the file header. Defaults to an empty dictionary. Common metadata includes the name of the file, the author, the date, and a description.
         keep_file (bool): If True, the original file will be kept. If False, the original file will be deleted. Defaults to True.
         chunking (bool): If True, the file will be encrypted in chunks. If False, the file will be encrypted all at once (NOT RECOMMENDED FOR LARGE FILES). Defaults to True.
-        chunk_size (int): Size of each chunk in bytes. Defaults to 1000000 bytes.
+        chunk_size (int): Size of each chunk in bytes. Defaults to 10 MB.
     """
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
@@ -162,7 +162,7 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
                 start_byte = 0
                 while start_byte < file_size:
                     og_f.seek(start_byte)
-                    full_chunk_size = min(chunk_size, file_size - start_byte + 1)
+                    full_chunk_size = min((chunk_size * 1024 * 1024), file_size - start_byte + 1)
                     chunk = og_f.read(full_chunk_size)
                     if not chunk:
                         break

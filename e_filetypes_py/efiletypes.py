@@ -30,7 +30,7 @@ def get_file_header(path: str, passkey: str) -> dict:
     except Exception:
         raise Exception(f"Failed to read file header for '{path}'.")
     
-def encrypt(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 1000000) -> None:
+def encrypt(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 10) -> None:
     """
     Encrypts a file with a passkey and optional metadata using AES-GCM/256, which is good for encrypting large amounts of data.
 
@@ -40,7 +40,7 @@ def encrypt(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True
         metadata (dict, optional): Metadata to be encrypted with the file. Defaults to {}.
         keep_file (bool, optional): If True, the original file will be kept. Defaults to True.
         chunking (bool, optional): If True, the file will be encrypted in chunks. Defaults to True.
-        chunk_size (int, optional): Size of the chunks in bytes. Defaults to 1000000.
+        chunk_size (int, optional): Size of the chunks in MB. Defaults to 10.
 
     Raises:
         FileNotFoundError: If the file does not exist
