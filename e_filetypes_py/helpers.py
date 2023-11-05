@@ -157,7 +157,7 @@ def read_file_header(path: str, passkey: str) -> dict:
     except Exception:
         raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
     
-def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 10) -> None:
+def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True, chunking: bool = True, chunk_size: int = 10, ignore_encrypted: bool = False) -> None:
     """ 
     Encrypts a file using AES-GCM, which is good for encrypting large amounts of data.
 
@@ -168,6 +168,7 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
         keep_file (bool): If True, the original file will be kept. If False, the original file will be deleted. Defaults to True.
         chunking (bool): If True, the file will be encrypted in chunks. If False, the file will be encrypted all at once. Fails for files over `2.14GB`. Defaults to True.
         chunk_size (int): Size of each chunk in bytes. Defaults to 10 MB.
+        ignore_encrypted (bool): If True, the function will not raise an error if the file is encrypted. Defaults to False.
 
     Raises:
         FileNotFoundError: If the file does not exist
@@ -184,8 +185,10 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     with open(path, 'rb') as f:
         file_header = f.read(3)
-        if file_header == b'e-*':
+        if file_header == b'e-*' and not ignore_encrypted:
             raise ValueError(f"File '{path}' is already encrypted. Please use decrypt_file() to decrypt the file.")
+        elif file_header == b'e-*' and ignore_encrypted:
+            return
     
     absolute_path = os.path.abspath(path)
     directory, file_name = os.path.split(absolute_path)
@@ -224,7 +227,7 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
     if not keep_file:
         os.remove(path)
 
-def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
+def decrypt_file(path: str, passkey: str, keep_file: bool = True, ignore_existing: bool = False) -> None:
     """
     Decrypts an encrypted file using AES-GCM
 
@@ -232,6 +235,7 @@ def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
         path (str): Path to the encrypted file
         passkey (str): Passkey used to decrypt the file
         keep_file (bool): If True, the original file will be kept. If False, the original file will be deleted. Defaults to True.
+        ignore_existing (bool): If True, the function will not raise an error if the file is not encrypted. Defaults to False.
 
     Raises:
         FileNotFoundError: If the file does not exist
@@ -250,8 +254,11 @@ def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
     try:
         with open(path, 'rb') as f:
             file_header = f.read(3)
-            if file_header != b'e-*':
+            if file_header != b'e-*' and not ignore_existing:
                 raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
+            elif file_header != b'e-*' and ignore_existing:
+                return
+            
             file_bytes = f.read()[509:] # e-* must have a header of 512 bytes - 3 bytes for descriptor, read everything afterwards
             file_bytes = base64.b64decode(file_bytes)
             salt = file_bytes[:16]
