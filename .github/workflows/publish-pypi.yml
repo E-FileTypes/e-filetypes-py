@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distribution 📦 to TestPyPI
+name: Publish Python 🐍 distribution 📦 to PyPi
 
 on: push
 
@@ -27,7 +27,7 @@ jobs:
             name: python-package-distributions
             path: dist/
     publish-to-pypi:
-      name: Publish to PyPI 🐍
+      name: Publish to PyPI 📦
       if: startsWith(github.ref, 'refs/tags/')
       needs:
       - build
@@ -46,7 +46,7 @@ jobs:
         - name: Publish
           uses: pypa/gh-action-pypi-publish@release/v1
     publish-to-testpypi:
-      name: Publish Python 🐍 distribution 📦 to TestPyPI
+      name: Publish to TestPyPI 📦
       needs:
         - build
       runs-on: ubuntu-latest
