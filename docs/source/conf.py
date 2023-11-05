@@ -1,7 +1,3 @@
-import os, sys
-
-sys.path.append(os.path.abspath('../../e_filetypes_py'))
-
 # Configuration file for the Sphinx documentation builder.
 
 # -- Project information
