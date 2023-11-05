@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v1.1.0...v2.0.0) (2023-11-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* adds encrypting and decrypting folders. allows bypassing encrypted files. allows bypassing decrypting already decrypted files
+
+### Features
+
+* adds encrypting and decrypting folders. allows bypassing encrypted files. allows bypassing decrypting already decrypted files ([dfeb011](https://github.com/E-FileTypes/e-filetypes-py/commit/dfeb01114e5648b45aa4a5f9e779bf4c3d49af08))
+* generates passphrases and passkeys ([ee2ccc6](https://github.com/E-FileTypes/e-filetypes-py/commit/ee2ccc65313cf233ac94542796f5ed3af812ddce))
+
 ## [1.1.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v1.0.0...v1.1.0) (2023-11-05)
 
 
