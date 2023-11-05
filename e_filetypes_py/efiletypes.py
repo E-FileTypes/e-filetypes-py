@@ -1,5 +1,6 @@
 import os
 from . import helpers
+import secrets
 
 def get_file_header(path: str, passkey: str) -> dict:
     """
@@ -91,4 +92,39 @@ def decrypt(path: str, passkey: str, keep_file=True) -> None:
     except Exception:
         raise Exception(f"Failed to read file header for '{path}'.")
 
+def generate_passkey(length: int = 32) -> str:
+    """
+    Generates a 32 character passkey for use in encrypting files.
+
+    Args:
+        length (int, optional): Length of the passkey. Defaults to 32.
+
+    Returns:
+        str: Passkey
+
+    Usage:
+        >>> from e_filetypes_py import efiletypes
+        >>> efiletypes.generate_passkey()
+        'passkey'
+    """
+    return secrets.token_hex(length)
+
+def generate_passphrase(length: int = 8) -> str:
+    """
+    Generates a 8 word passphrase for use in encrypting files.
+
+    Args:
+        length (int, optional): Length of the passphrase. in words. Defaults to 8.
+    Returns:
+        str: Passphrase
+
+    Usage:
+        >>> from e_filetypes_py import efiletypes
+        >>> efiletypes.generate_passphrase()
+        'passphrase passphrase passphrase passphrase passphrase passphrase passphrase passphrase'
+    """
+    # wordlist is sourced from linux /usr/share/dict/words
+    with open(os.path.join(os.path.dirname(__file__), 'library', 'words.txt')) as f:
+        words = [word.strip() for word in f]
+    return ' '.join([secrets.choice(words).lower().replace("'", "").strip() for _ in range(length)])
 

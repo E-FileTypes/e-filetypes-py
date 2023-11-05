@@ -9,7 +9,7 @@
 
 | |
 | :---: |
-| ![Static Badge](https://img.shields.io/badge/built_using-python-blue) ![Static Badge](https://img.shields.io/badge/built%20in-only_36_hours!-purple) |
+| ![Static Badge](https://img.shields.io/badge/built_using-python-blue) ![Static Badge](https://img.shields.io/badge/built%20in-only_36_hours!-purple) ![Static Badge](https://img.shields.io/badge/dependencies-1-gold) |
 | [![Documentation Status](https://readthedocs.org/projects/e-filetypes-py/badge/?version=latest)](https://e-filetypes-py.readthedocs.io/en/latest/?badge=latest) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/E-FileTypes/e-filetypes-py/release-please.yml?label=release-please) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/E-FileTypes/e-filetypes-py/ruff.yml?label=ruff) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/E-FileTypes/e-filetypes-py/publish-pypi.yml?label=pypi%20package) |
 | ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/E-FileTypes/e-filetypes-py) ![PyPI - Version](https://img.shields.io/pypi/v/e-filetypes-py) |
 | |
