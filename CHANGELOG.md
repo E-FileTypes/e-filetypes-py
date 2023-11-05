@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/E-FileTypes/e-filetypes-py/compare/v2.0.0...v2.0.1) (2023-11-05)
+
+
+### Bug Fixes
+
+* adds cryptography to dependencies ([7c3a95b](https://github.com/E-FileTypes/e-filetypes-py/commit/7c3a95b104f17d726e0341b4d783bc9760ca2b67))
+
 ## [2.0.0](https://github.com/E-FileTypes/e-filetypes-py/compare/v1.1.0...v2.0.0) (2023-11-05)
 
 
