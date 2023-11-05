@@ -21,3 +21,6 @@ The E-FileTypes-Py library allows you to integrate with E-FileTypes using any Py
 
 ## Docs
 You can view the Python specific docs [here](https://e-filetypes-py.readthedocs.io/en/latest/).
+
+## Benchmarks
+You can view the benchmarks [here](/benchmarks/README.md). They give a lot of info on how this library performs.
