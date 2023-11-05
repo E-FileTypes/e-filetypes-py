@@ -67,7 +67,7 @@ def encrypt_data(data: bytes, passkey: str) -> bytes:
 
 def write_file_header(path: str, passkey: str, metadata: dict = {}) -> None:
     """
-    Writes the file header of an encrypted file. The first 512 bytes of the file are reserved for the file header. Writes 'e-*' as a way to distinguish the file and then encrypts any metadata into the file header.
+    Writes the file header of an encrypted file. The first 512 bytes of the file are reserved for the file header. Writes 'e-#' as a way to distinguish the file and then encrypts any metadata into the file header.
 
     Args:
         path (str): Path to the encrypted file
@@ -83,7 +83,7 @@ def write_file_header(path: str, passkey: str, metadata: dict = {}) -> None:
         >>> import os
         >>> salt = os.urandom(16)
         >>> key = helpers.generate_key('passkey', salt)
-        >>> helpers.write_file_header('path/to/file.e-*', key, {'foo': 'bar'})
+        >>> helpers.write_file_header('path/to/file.e-#', key, {'foo': 'bar'})
     """
 
     if not os.path.isfile(path):
@@ -91,7 +91,7 @@ def write_file_header(path: str, passkey: str, metadata: dict = {}) -> None:
     try:
         with open(path, 'rb+') as f:
             f.seek(0)
-            f.write(b'e-*')
+            f.write(b'e-#')
             f.seek(3)
             metadata_json = json.dumps(metadata)
             encrypted_metadata = encrypt_data(metadata_json.encode(), passkey)
@@ -122,7 +122,7 @@ def read_file_header(path: str, passkey: str) -> dict:
         >>> import os
         >>> salt = os.urandom(16)
         >>> key = helpers.generate_key('passkey', salt)
-        >>> helpers.read_file_header('path/to/file.e-*', key)
+        >>> helpers.read_file_header('path/to/file.e-#', key)
         {'foo': 'bar'}
     """
     if not os.path.isfile(path):
@@ -130,10 +130,10 @@ def read_file_header(path: str, passkey: str) -> dict:
     try:
         with open(path, 'rb') as f:
             file_header = f.read(3)
-            if file_header != b'e-*':
+            if file_header != b'e-#':
                 raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
             f.seek(3)
-            header_bytes = f.read(512)[:-3] # e-* must have a header of 512 bytes
+            header_bytes = f.read(512)[:-3] # e-# must have a header of 512 bytes
             header_encrypted = base64.b64decode(header_bytes)
             salt = header_encrypted[:16]
             nonce = header_encrypted[16:28]
@@ -185,9 +185,9 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     with open(path, 'rb') as f:
         file_header = f.read(3)
-        if file_header == b'e-*' and not ignore_encrypted:
+        if file_header == b'e-#' and not ignore_encrypted:
             raise ValueError(f"File '{path}' is already encrypted. Please use decrypt_file() to decrypt the file.")
-        elif file_header == b'e-*' and ignore_encrypted:
+        elif file_header == b'e-#' and ignore_encrypted:
             return
     
     absolute_path = os.path.abspath(path)
@@ -195,7 +195,7 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
     base_name, extension = os.path.splitext(file_name)
     full_metadata = {"file_name": file_name, "original_extension": extension, "original_size": os.path.getsize(path), **metadata}
 
-    new_path = os.path.join(directory, base_name + '.e-*')
+    new_path = os.path.join(directory, base_name + '.e-#')
 
     if chunking:
         with open(new_path, 'wb') as f:
@@ -247,19 +247,19 @@ def decrypt_file(path: str, passkey: str, keep_file: bool = True, ignore_existin
         >>> import os
         >>> salt = os.urandom(16)
         >>> key = helpers.generate_key('passkey', salt)
-        >>> helpers.decrypt_file('path/to/file.e-*', key)
+        >>> helpers.decrypt_file('path/to/file.e-#', key)
     """
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     try:
         with open(path, 'rb') as f:
             file_header = f.read(3)
-            if file_header != b'e-*' and not ignore_existing:
+            if file_header != b'e-#' and not ignore_existing:
                 raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
-            elif file_header != b'e-*' and ignore_existing:
+            elif file_header != b'e-#' and ignore_existing:
                 return
             
-            file_bytes = f.read()[509:] # e-* must have a header of 512 bytes - 3 bytes for descriptor, read everything afterwards
+            file_bytes = f.read()[509:] # e-# must have a header of 512 bytes - 3 bytes for descriptor, read everything afterwards
             file_bytes = base64.b64decode(file_bytes)
             salt = file_bytes[:16]
             nonce = file_bytes[16:28]

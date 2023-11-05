@@ -7,7 +7,7 @@ def get_file_header(path: str, passkey: str) -> dict:
     Reads the file header of an encrypted file and returns the file header.
 
     Args:
-        path (str): Path to the encrypted file. Must be an e-* file.
+        path (str): Path to the encrypted file. Must be an e-# file.
         passkey (str): Passkey used to encrypt the file header. Must be the same passkey used to encrypt the file.
 
     Returns:
@@ -19,7 +19,7 @@ def get_file_header(path: str, passkey: str) -> dict:
 
     Usage:
         >>> from e_filetypes_py import efiletypes
-        >>> efiletypes.get_file_header('path/to/file.e-*', 'passkey')
+        >>> efiletypes.get_file_header('path/to/file.e-#', 'passkey')
         {'foo': 'bar'}   
     """
     if not os.path.isfile(path):
@@ -100,11 +100,11 @@ def encrypt_folder(path: str, passkey: str, metadata: dict = {}, keep_file: bool
 
 def decrypt(path: str, passkey: str, keep_file: bool = True, ignore_existing: bool = False) -> None:
     """
-    Decrypts an e-* file with a passkey.
+    Decrypts an e-# file with a passkey.
 
 
     Args:
-        path (str): Path to the file to be decrypted. Must be an e-* file.
+        path (str): Path to the file to be decrypted. Must be an e-# file.
         passkey (str): Passkey used to encrypt the file
         keep_file (bool, optional): If True, the original file will be kept. Defaults to True.
         ignore_existing (bool, optional): If True, the file will be decrypted even if it already exists. Defaults to False.
@@ -116,7 +116,7 @@ def decrypt(path: str, passkey: str, keep_file: bool = True, ignore_existing: bo
 
     Usage:
         >>> from e_filetypes_py import efiletypes
-        >>> efiletypes.decrypt('path/to/file.e-*', 'passkey')
+        >>> efiletypes.decrypt('path/to/file.e-#', 'passkey')
     """
 
     if not os.path.isfile(path):
@@ -130,11 +130,11 @@ def decrypt(path: str, passkey: str, keep_file: bool = True, ignore_existing: bo
 
 def decrypt_folder(path: str, passkey: str, keep_file=True, recursive: bool = False, ignore_existing: bool = False) -> None:
     """
-    Decrypts an e-* file with a passkey.
+    Decrypts an e-# file with a passkey.
 
 
     Args:
-        path (str): Path to the folder to be decrypted. Must be a directory containing e-* files.
+        path (str): Path to the folder to be decrypted. Must be a directory containing e-# files.
         passkey (str): Passkey used to encrypt the files.
         keep_file (bool, optional): If True, the original file will be kept. Defaults to True.
         recursive (bool, optional): If True, files in sub-folders will also be decrypted. Defaults to False.
@@ -147,7 +147,7 @@ def decrypt_folder(path: str, passkey: str, keep_file=True, recursive: bool = Fa
 
     Usage:
         >>> from e_filetypes_py import efiletypes
-        >>> efiletypes.decrypt_folder('path/to/folder.e-*', 'passkey')
+        >>> efiletypes.decrypt_folder('path/to/folder.e-#', 'passkey')
     """
 
     if not os.path.isdir(path):

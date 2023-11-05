@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 test.txt
-test.e-*
+test.e-#

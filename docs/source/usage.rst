@@ -38,4 +38,4 @@ To decrypt a file use the ``efiletypes.decrypt()`` function:
 For example:
 
 >>> from e_filetypes_py import efiletypes
->>> efiletypes.decrypt("test.e-*", "password") # decrypts with the extension e-* (required)
+>>> efiletypes.decrypt("test.e-#", "password") # decrypts with the extension e-# (required)
