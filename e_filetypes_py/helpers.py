@@ -11,11 +11,19 @@ def generate_key(passkey: str, salt: bytes, iterations: int = 100000) -> bytes:
     Generates a key from a passkey and salt. The key is used to encrypt and decrypt files.
 
     Args:
-        passkey (str): Passkey used to generate the key
-        salt (str): Salt used to generate the key
+        passkey (str): Passkey used to generate the key.
+        salt (str): Salt used to generate the key.
 
     Returns:
         bytes: Key used to encrypt and decrypt files
+
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> key
+        b'\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11'
     """
 
     kdf = PBKDF2HMAC(
@@ -37,6 +45,16 @@ def encrypt_data(data: bytes, passkey: str) -> bytes:
 
     Returns:
         bytes: Encrypted data
+
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> data = b'\x00' * (10485760)  # 10MB of null bytes
+        >>> encrypted_data = helpers.encrypt_data(data, key)
+        >>> encrypted_data
+        b'\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11'
     """
     salt = os.urandom(16)
     key = generate_key(passkey, salt)
@@ -59,6 +77,13 @@ def write_file_header(path: str, passkey: str, metadata: dict = {}) -> None:
     Raises:
         FileNotFoundError: If the file does not exist
         Exception: The process failed for an unknown reason
+
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> helpers.write_file_header('path/to/file.e-*', key, {'foo': 'bar'})
     """
 
     if not os.path.isfile(path):
@@ -92,6 +117,13 @@ def read_file_header(path: str, passkey: str) -> dict:
         ValueError: If the file is not encrypted
         Exception: The process failed for an unknown reason
 
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> helpers.read_file_header('path/to/file.e-*', key)
+        {'foo': 'bar'}
     """
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
@@ -134,8 +166,19 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
         passkey (str): Passkey used to encrypt the file
         metadata (dict): Metadata to be encrypted into the file header. Defaults to an empty dictionary. Common metadata includes the name of the file, the author, the date, and a description.
         keep_file (bool): If True, the original file will be kept. If False, the original file will be deleted. Defaults to True.
-        chunking (bool): If True, the file will be encrypted in chunks. If False, the file will be encrypted all at once (NOT RECOMMENDED FOR LARGE FILES). Defaults to True.
+        chunking (bool): If True, the file will be encrypted in chunks. If False, the file will be encrypted all at once. Fails for files over `2.14GB`. Defaults to True.
         chunk_size (int): Size of each chunk in bytes. Defaults to 10 MB.
+
+    Raises:
+        FileNotFoundError: If the file does not exist
+        Exception: The process failed for an unknown reason
+
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> helpers.encrypt_file('path/to/file', key, {'foo': 'bar'})
     """
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
@@ -181,8 +224,6 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
     if not keep_file:
         os.remove(path)
 
-encrypt_file('test.txt', 'test', chunking=True)
-
 def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
     """
     Decrypts an encrypted file using AES-GCM
@@ -191,7 +232,18 @@ def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
         path (str): Path to the encrypted file
         passkey (str): Passkey used to decrypt the file
         keep_file (bool): If True, the original file will be kept. If False, the original file will be deleted. Defaults to True.
-    
+
+    Raises:
+        FileNotFoundError: If the file does not exist
+        ValueError: If the file is not encrypted
+        Exception: The process failed for an unknown reason
+
+    Usage:
+        >>> from e_filetypes_py import helpers
+        >>> import os
+        >>> salt = os.urandom(16)
+        >>> key = helpers.generate_key('passkey', salt)
+        >>> helpers.decrypt_file('path/to/file.e-*', key)
     """
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
