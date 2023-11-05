@@ -158,12 +158,17 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
                 # write chunks after header
                 f.seek(3)
                 f.seek(512)
-                while True:
-                    chunk = og_f.read(chunk_size)
-                    if len(chunk) == 0:
+                file_size = os.path.getsize(path)
+                start_byte = 0
+                while start_byte < file_size:
+                    og_f.seek(start_byte)
+                    full_chunk_size = min(chunk_size, file_size - start_byte + 1)
+                    chunk = og_f.read(full_chunk_size)
+                    if not chunk:
                         break
                     encrypted_chunk = encrypt_data(chunk, passkey)
                     f.write(encrypted_chunk)
+                    start_byte += full_chunk_size
     else:
         with open(new_path, 'wb') as f:
             write_file_header(path=new_path, passkey=passkey, metadata=full_metadata)
@@ -175,6 +180,8 @@ def encrypt_file(path: str, passkey: str, metadata: dict = {}, keep_file: bool =
                 f.write(encrypted_data)
     if not keep_file:
         os.remove(path)
+
+encrypt_file('test.txt', 'test', chunking=True)
 
 def decrypt_file(path: str, passkey: str, keep_file=True) -> None:
     """
