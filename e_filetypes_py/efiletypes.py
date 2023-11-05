@@ -1,5 +1,5 @@
 import os
-from helpers import read_file_header, encrypt_file, decrypt_file
+from . import helpers
 
 def get_file_header(path: str, passkey: str) -> dict:
     """
@@ -24,7 +24,7 @@ def get_file_header(path: str, passkey: str) -> dict:
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     try:
-        return read_file_header(path, passkey)
+        return helpers.read_file_header(path, passkey)
     except ValueError:
         raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
     except Exception:
@@ -55,7 +55,7 @@ def encrypt(path: str, passkey: str, metadata: dict = {}, keep_file: bool = True
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     try:
-        encrypt_file(path=path, passkey=passkey, metadata=metadata, keep_file=keep_file, chunking=chunking, chunk_size=chunk_size)
+        helpers.encrypt_file(path=path, passkey=passkey, metadata=metadata, keep_file=keep_file, chunking=chunking, chunk_size=chunk_size)
     except ValueError:
         raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
     except Exception:
@@ -85,7 +85,7 @@ def decrypt(path: str, passkey: str, keep_file=True) -> None:
     if not os.path.isfile(path):
         raise FileNotFoundError(f"File '{path}' does not exist. Is there a typo?")
     try:
-        decrypt_file(path=path, passkey=passkey, keep_file=keep_file)
+        helpers.decrypt_file(path=path, passkey=passkey, keep_file=keep_file)
     except ValueError:
         raise ValueError(f"File '{path}' is not encrypted. Please use encrypt the file to an EType first.")
     except Exception:
