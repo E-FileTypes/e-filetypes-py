@@ -34,4 +34,4 @@ You can view the Python specific docs [here](https://e-filetypes-py.readthedocs.
 
 ## 🏎️ Benchmarks
 
-You can view the benchmarks [here](/benchmarks/README.md). I highly recommend you check them out, as they are very interesting, and the improvements are very significant.
+You can view the benchmarks [here](https://github.com/E-FileTypes/e-filetypes-py/blob/main/benchmarks/README.md). I highly recommend you check them out, as they are very interesting, and the improvements are very significant.
