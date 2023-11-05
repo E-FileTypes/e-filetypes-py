@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "e-filetypes-py"
 authors = [{name = "Wamy", email = "davidisadev@gmail.com"}]
 dynamic = ["description"]
-version = "0.0.1"
+version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
