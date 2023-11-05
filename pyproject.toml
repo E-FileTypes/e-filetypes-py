@@ -14,7 +14,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+dependencies =[
+    "cryptography",
+]
 [project.urls]
 "Homepage" = "https://github.com/E-FileTypes/e-filetypes-py"
 "Bug Tracker" = "https://github.com/E-FileTypes/e-filetypes-py/issues"
