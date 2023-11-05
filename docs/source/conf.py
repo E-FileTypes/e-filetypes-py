@@ -26,7 +26,7 @@ intersphinx_mapping = {
 intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
-
+autosummary_generate = True
 # -- Options for HTML output
 
 html_theme = 'sphinx_rtd_theme'
